@@ -51,12 +51,12 @@ class RiskEngine:
         self.embedder = embedder
         self.vectorstore = vectorstore
 
-        # Initialize uggingFace LLM
+        # Initialize HuggingFace LLM
         self.llm = HuggingFaceHub(
-           repo_id=HF_MODEL_NAME,
-           huggingfacehub_api_token=HF_API_TOKEN,
-           task="text-generation",
-           model_kwargs={"temperature": TEMPERATURE, "max_length": 512},
+            repo_id=HF_MODEL_NAME,
+            huggingfacehub_api_token=HF_API_TOKEN,
+            task="text-generation",
+            model_kwargs={"temperature": TEMPERATURE, "max_length": 512},
 )
 
     def score_clause(self, clause: Dict) -> Optional[RiskScore]:
