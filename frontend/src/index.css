@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  background: #0A0A0F;
+  color: #F1F0FF;
+}
+
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.code-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111118;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E1E2E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2A2A3E;
+}
+
+/* Card base styles */
+.card {
+  @apply bg-surface border border-border rounded-2xl backdrop-blur-lg transition-all duration-200 hover:border-blue/40 hover:-translate-y-0.5;
+}
+
+/* Risk badge */
+.risk-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border;
+}
+
+.risk-badge-critical {
+  @apply bg-red-950/30 border-red-800 text-critical;
+}
+
+.risk-badge-high {
+  @apply bg-orange-950/30 border-orange-800 text-high;
+}
+
+.risk-badge-medium {
+  @apply bg-yellow-950/30 border-yellow-800 text-medium;
+}
+
+.risk-badge-low {
+  @apply bg-green-950/30 border-green-800 text-low;
+}
+
+/* Button base */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-semibold transition-all duration-200 cursor-pointer;
+}
+
+.btn-primary {
+  @apply bg-blue text-white hover:bg-blue-light;
+}
+
+.btn-secondary {
+  @apply bg-surface-high border border-border text-text hover:border-blue hover:bg-surface;
+}
+
+.btn-ghost {
+  @apply text-muted hover:text-text;
+}
+
+/* Loading skeleton */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #1E1E2E 25%, #2A2A3E 50%, #1E1E2E 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}

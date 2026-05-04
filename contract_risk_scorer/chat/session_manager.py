@@ -70,8 +70,12 @@ class SessionManager:
         if session_id in self.sessions:
             # Clear memory in RAG chain before deleting
             session = self.sessions[session_id]
-            if "rag_chain" in session:
-                session["rag_chain"].clear_memory()
+            rag_chain = session.get("rag_chain")
+            if rag_chain:
+                try:
+                    rag_chain.clear_memory()
+                except Exception as e:
+                    print(f"Warning: Could not clear memory: {str(e)}")
 
             del self.sessions[session_id]
             return True
@@ -95,8 +99,19 @@ class SessionManager:
             return None
 
         try:
+            # Check if RAG chain is available
+            rag_chain = session.get("rag_chain")
+            if not rag_chain:
+                # Fallback: return empty response
+                session["last_activity"] = datetime.now()
+                session["message_count"] += 1
+                return {
+                    "answer": "Unable to process question at this time. Please try re-uploading your contract.",
+                    "referenced_clauses": [],
+                }
+            
             # Ask question using RAG chain
-            answer_data = session["rag_chain"].ask(question)
+            answer_data = rag_chain.ask(question)
 
             # Update session
             session["last_activity"] = datetime.now()
@@ -105,6 +120,7 @@ class SessionManager:
             return answer_data
 
         except Exception as e:
+            print(f"Error asking question: {str(e)}")
             return {
                 "answer": f"Error processing question: {str(e)}",
                 "referenced_clauses": [],

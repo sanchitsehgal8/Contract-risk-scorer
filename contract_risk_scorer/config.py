@@ -11,7 +11,9 @@ load_dotenv()
 
 # API Configuration
 HF_API_TOKEN: str = os.getenv("HF_API_TOKEN", "")
-HF_MODEL_NAME: str = os.getenv("HF_MODEL_NAME", "google/flan-t5-large")
+HF_TOKEN: str = os.getenv("HF_TOKEN", HF_API_TOKEN)
+HF_MODEL_NAME: str = os.getenv("HF_MODEL_NAME", "mistralai/Mistral-7B-Instruct-v0.2")
+HF_CHAT_MODEL: str = os.getenv("HF_CHAT_MODEL", "meta-llama/Llama-3.1-8B-Instruct:novita")
 EMBEDDING_MODEL_NAME: str = "sentence-transformers/all-MiniLM-L6-v2"
 
 # FAISS Configuration

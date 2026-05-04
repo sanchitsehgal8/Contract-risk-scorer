@@ -1,9 +1,9 @@
-"""PDF parsing and text extraction using PyMuPDF."""
+"""PDF parsing and text extraction using pypdf."""
 
 import re
 from typing import Dict, List
 
-import fitz  # PyMuPDF
+from pypdf import PdfReader
 
 
 class PDFParser:
@@ -26,22 +26,23 @@ class PDFParser:
         results = []
 
         try:
-            doc = fitz.open(pdf_path)
+            reader = PdfReader(pdf_path)
+            total_pages = len(reader.pages)
 
-            for page_num, page in enumerate(doc, start=1):
-                # Get page text with blocks
-                text = page.get_text("text")
+            for page_num, page in enumerate(reader.pages, start=1):
+                # Extract text from page
+                text = page.extract_text()
 
                 # Clean up text: remove extra whitespace and normalize
                 text = self._clean_text(text)
 
                 # Get page dimensions for bbox
-                rect = page.rect
+                mediabox = page.mediabox
                 bbox = {
-                    "x0": rect.x0,
-                    "y0": rect.y0,
-                    "x1": rect.x1,
-                    "y1": rect.y1,
+                    "x0": float(mediabox.left),
+                    "y0": float(mediabox.bottom),
+                    "x1": float(mediabox.right),
+                    "y1": float(mediabox.top),
                 }
 
                 results.append(
@@ -49,11 +50,9 @@ class PDFParser:
                         "page_num": page_num,
                         "text": text,
                         "bbox": bbox,
-                        "total_pages": len(doc),
+                        "total_pages": total_pages,
                     }
                 )
-
-            doc.close()
 
         except Exception as e:
             raise ValueError(f"Failed to parse PDF: {str(e)}")
