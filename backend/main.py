@@ -1,4 +1,4 @@
-"""Contract Risk Scorer FastAPI application."""
+
 
 import os
 import shutil
@@ -30,13 +30,11 @@ from contract_risk_scorer.report.pdf_annotator import PDFAnnotator
 from contract_risk_scorer.scoring.risk_engine import RiskEngine, RiskScore
 from contract_risk_scorer.vectorstore.faiss_store import FAISSStore
 
-# ============================================================================
-# PYDANTIC MODELS
-# ============================================================================
+
 
 
 class ClauseRisk(BaseModel):
-    """Risk information for a single clause."""
+   
 
     clause_id: str
     clause_type: str
@@ -117,7 +115,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files for React frontend
 FRONTEND_DIST = os.path.join(os.path.dirname(__file__), "../frontend/dist")
 if os.path.exists(FRONTEND_DIST):
     app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIST, "assets")), name="assets")
@@ -130,9 +127,6 @@ if os.path.exists(FRONTEND_DIST):
             return FileResponse(index_path)
         raise HTTPException(status_code=404, detail="Frontend not built")
 
-# ============================================================================
-# GLOBAL STATE
-# ============================================================================
 
 # Initialize components
 embedder: Optional[Embedder] = None

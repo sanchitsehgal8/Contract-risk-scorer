@@ -1,4 +1,3 @@
-"""Session management for chat interactions."""
 
 from datetime import datetime
 from typing import Dict, List, Optional

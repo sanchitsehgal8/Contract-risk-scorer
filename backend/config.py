@@ -1,4 +1,4 @@
-"""Configuration and constants for Contract Risk Scorer."""
+
 
 import os
 from pathlib import Path
